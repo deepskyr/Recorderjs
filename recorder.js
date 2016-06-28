@@ -1,4 +1,6 @@
-var WORKER_PATH = './recorderWorker.js';
+var MyWorker = require("worker?inline!./recorderWorker.js")
+
+//var WORKER_PATH = './recorderWorker.js';
 
 var Recorder = function(source, cfg){
   var config = cfg || {};
@@ -7,7 +9,8 @@ var Recorder = function(source, cfg){
   this.node = (this.context.createScriptProcessor ||
                this.context.createJavaScriptNode).call(this.context,
                                                        bufferLen, 2, 2);
-  var worker = new Worker(WORKER_PATH);
+  //var worker = new Worker(WORKER_PATH);
+  var worker = new MyWorker();
   worker.onmessage = function(e){
     var blob = e.data;
     currCallback(blob);
